@@ -39,7 +39,7 @@ A full-stack Academix built with React, Node.js, and MongoDB.
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Alok-Kumar-Singh2513/Academix.git
 cd LMS
 ```
 
