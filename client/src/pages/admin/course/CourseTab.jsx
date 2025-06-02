@@ -105,11 +105,13 @@ const CourseTab = () => {
 
   const publishStatusHandler = async (action) => {
     try {
-      const response = await publishCourse({courseId, query: action}).unwrap();
-      toast.success(response.message);
-      refetch();
+      const response = await publishCourse({courseId, query:action});
+      if(response.data){
+        refetch();
+        toast.success(response.data.message);
+      }
     } catch (error) {
-      toast.error(error?.data?.message || "Failed to publish or unpublish course");
+      toast.error("Failed to publish or unpublish course");
     }
   }
 
@@ -195,8 +197,6 @@ const CourseTab = () => {
                     <SelectItem value="Docker">Docker</SelectItem>
                     <SelectItem value="MongoDB">MongoDB</SelectItem>
                     <SelectItem value="HTML">HTML</SelectItem>
-                    <SelectItem value="Java">Java</SelectItem>
-                    <SelectItem value="Tailwinds">Tailwinds</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

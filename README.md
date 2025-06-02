@@ -1,6 +1,6 @@
 # Learning Management System (LMS)
 
-A full-stack Learning Management System built with React, Node.js, and MongoDB.
+A full-stack Academix built with React, Node.js, and MongoDB.
 
 ## Features
 

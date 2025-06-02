@@ -1,7 +1,8 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import LectureTab from "./LectureTab ";
+import LectureTab from "./LectureTab";
 // import { LectureTab } from "./LectureTab ";
 // import LectureTab from "./LectureTab ";
 
@@ -9,7 +10,7 @@ const EditLecture = () => {
   const params = useParams();
   const courseId = params.courseId;
   return (
-    <div>
+    <div className="flex-1 mx-10">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <Link to={`/admin/course/${courseId}/lecture`}>
