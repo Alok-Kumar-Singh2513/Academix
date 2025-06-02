@@ -14,26 +14,46 @@ import {
 const Dashboard = () => {
   const { data, isSuccess, isError, isLoading } = useGetPurchasedCoursesQuery();
 
-  if (isLoading) return <h1>Loading...</h1>;
-  if (isError)
-    return <h1 className="text-red-500">Failed to get purchased course</h1>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
 
-  //
-  const { purchasedCourse } = data || [];
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <h1 className="text-red-500">Failed to get purchased courses</h1>
+      </div>
+    );
+  }
 
-  const courseData = purchasedCourse.map((course) => ({
-    name: course.courseId.courseTitle,
-    price: course.courseId.coursePrice,
-  }));
+  if (!data?.purchasedCourse || data.purchasedCourse.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <h1 className="text-gray-600">No purchased courses found</h1>
+      </div>
+    );
+  }
 
-  const totalRevenue = purchasedCourse.reduce(
+  const courseData = data.purchasedCourse
+    .filter(course => course?.courseId && course.courseId.courseTitle)
+    .map((course) => ({
+      name: course.courseId.courseTitle,
+      price: course.courseId.coursePrice || 0,
+    }));
+
+  const totalRevenue = data.purchasedCourse.reduce(
     (acc, element) => acc + (element.amount || 0),
     0
   );
 
-  const totalSales = purchasedCourse.length;
+  const totalSales = data.purchasedCourse.length;
+
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
         <CardHeader>
           <CardTitle>Total Sales</CardTitle>
@@ -48,7 +68,7 @@ const Dashboard = () => {
           <CardTitle>Total Revenue</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-3xl font-bold text-blue-600">{totalRevenue}</p>
+          <p className="text-3xl font-bold text-blue-600">₹{totalRevenue}</p>
         </CardContent>
       </Card>
 
@@ -66,18 +86,18 @@ const Dashboard = () => {
               <XAxis
                 dataKey="name"
                 stroke="#6b7280"
-                angle={-30} // Rotated labels for better visibility
+                angle={-30}
                 textAnchor="end"
-                interval={0} // Display all labels
+                interval={0}
               />
               <YAxis stroke="#6b7280" />
               <Tooltip formatter={(value, name) => [`₹${value}`, name]} />
               <Line
                 type="monotone"
                 dataKey="price"
-                stroke="#4a90e2" // Changed color to a different shade of blue
+                stroke="#4a90e2"
                 strokeWidth={3}
-                dot={{ stroke: "#4a90e2", strokeWidth: 2 }} // Same color for the dot
+                dot={{ stroke: "#4a90e2", strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>

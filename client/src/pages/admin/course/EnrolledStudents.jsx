@@ -22,19 +22,25 @@ const EnrolledStudents = () => {
     const fetchEnrolledStudents = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/course/${courseId}/enrolled-students`,
+          `http://localhost:3000/api/v1/course/${courseId}/enrolled-students`,
           { withCredentials: true }
         );
         setStudents(response.data.students);
       } catch (error) {
         console.error("Error fetching enrolled students:", error);
-        toast.error("Failed to fetch enrolled students");
+        if (error.response?.status === 401) {
+          toast.error("Please login to view enrolled students");
+        } else {
+          toast.error(error.response?.data?.message || "Failed to fetch enrolled students");
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEnrolledStudents();
+    if (courseId) {
+      fetchEnrolledStudents();
+    }
   }, [courseId]);
 
   if (loading) {
@@ -67,13 +73,13 @@ const EnrolledStudents = () => {
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={student.photoUrl} alt={student.name} />
                     <AvatarFallback>
-                      {student.name.split(" ").map((n) => n[0]).join("")}
+                      {student.name?.split(" ").map((n) => n[0]).join("") || "U"}
                     </AvatarFallback>
                   </Avatar>
                   <span>{student.name}</span>
                 </TableCell>
                 <TableCell>{student.email}</TableCell>
-                <TableCell>{student.enrolledCourses.length}</TableCell>
+                <TableCell>{student.enrolledCourses?.length || 0}</TableCell>
                 <TableCell>
                   {new Date(student.createdAt).toLocaleDateString()}
                 </TableCell>

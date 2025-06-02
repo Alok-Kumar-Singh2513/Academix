@@ -1,33 +1,20 @@
 import { Button } from "@/components/ui/button";
-// import React from "react";
-import CourseTab from "./CourseTab";
+import React from "react";
 import { Link } from "react-router-dom";
-import EnrolledStudents from "./EnrolledStudents";
+import CourseTab from "./CourseTab";
 
 const EditCourse = () => {
   return (
-    <div className="max-w-7xl mx-auto p-4 mt-20">
-      <div className="flex flex-col gap-8">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Edit Course</h1>
-          <Button onClick={handlePublishCourse}>
-            {isPublished ? "Unpublish Course" : "Publish Course"}
-          </Button>
-        </div>
-
-        {/* Course Details Form */}
-        <Card>
-          {/* ... existing form code ... */}
-        </Card>
-
-        {/* Lectures Section */}
-        <Card>
-          {/* ... existing lectures code ... */}
-        </Card>
-
-        {/* Enrolled Students Section */}
-        <EnrolledStudents />
+    <div className="flex-1">
+      <div className="flex items-center justify-between mb-5">
+        <h1 className="font-bold text-xl">
+          Add detail information regarding course
+        </h1>
+        <Link to="lecture">
+          <Button className="hover:text-blue-600" variant="link">Go to lectures page</Button>
+        </Link>
       </div>
+      <CourseTab/>
     </div>
   );
 };

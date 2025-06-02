@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-const COURSE_PROGRESS_API = "http://localhost:8080/api/v1/progress";
+import { API_BASE_URL } from "@/config/api";
 
 export const courseProgressApi = createApi({
   reducerPath: "courseProgressApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: COURSE_PROGRESS_API,
+    baseUrl: `${API_BASE_URL}/progress`,
     credentials: "include",
   }),
   endpoints: (builder) => ({
@@ -21,7 +20,6 @@ export const courseProgressApi = createApi({
         method: "POST",
       }),
     }),
-
     completeCourse: builder.mutation({
       query: (courseId) => ({
         url: `/${courseId}/complete`,
@@ -36,6 +34,7 @@ export const courseProgressApi = createApi({
     }),
   }),
 });
+
 export const {
   useGetCourseProgressQuery,
   useUpdateLectureProgressMutation,
